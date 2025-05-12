@@ -11,7 +11,7 @@
                     <img class='product-image' src="{$conf->app_url}/images/products/{$prod.image_url}">
                     <h3>{$prod.name}</h3>
                     <p>{$prod.price} zł</p>
-                    <a class="button" href="#">Dodaj do koszyka</a>
+                    <a class="button" href="{$conf->action_url}showProduct/{$prod.id}">Zobacz szczegóły</a>
             </div>
         {/foreach}
       </div>
