@@ -2,17 +2,18 @@
 
 namespace app\controllers;
 
+use core\Utils;
+use core\SessionUtils;
 use core\ParamUtils;
 use core\App;
-use core\Utils;
 use core\Validator;
-use app\forms\LoginForm;
+use app\forms\RegisterForm;
 
 class RegisterCtrl {
     private $form;
     
     public function __construct() {
-        $this->form = new LoginForm();
+        $this->form = new RegisterForm();
     }
    
     private function getParams() {
@@ -72,8 +73,9 @@ class RegisterCtrl {
                     "role_id" => 1
                 ]);
 
-                Utils::addInfoMessage('Rejestracja została zakończona pomyślnie.');
-                $this->generateView();
+                Utils::addInfoMessage('Rejestracja zakończona pomyślnie – możesz się teraz zalogować.');
+                SessionUtils::storeMessages();
+                App::getRouter()->redirectTo('loginView');
 
             } catch (\PDOException $e) {
                 Utils::addErrorMessage('Błąd zapisu do bazy danych.');

@@ -9,7 +9,7 @@
             </p>
         </header>
         <section id="app_content">
-                <form action="{$conf->action_url}registerSave" method="post">
+                <form action="{url action='registerSave'}" method="post">
                         <div class="row gtr-uniform gtr-50">
                             <div class="col-6 col-12-xsmall">
                             <fieldset>
@@ -20,9 +20,7 @@
                             </fieldset>
                             </div>
                             <div class="col-6">    
-                            {foreach $msgs->getMessages() as $msg}
-                                {$msg->text}
-                            {/foreach}
+                            {include file="messages.tpl"}
                             </div>
                                 <div class="col-12">
                                         <input type="submit" value="Zarejestruj" class="primary" />

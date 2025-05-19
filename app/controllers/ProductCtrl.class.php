@@ -1,21 +1,24 @@
 <?php
 
-
 namespace app\controllers;
 
 use core\App;
 use core\Utils;
 use core\ParamUtils;
+use core\SessionUtils;
 
 class ProductCtrl {
-   public function action_showCategory() {
-       $categoryName = ParamUtils::getFromCleanURL(1, true, 'Brak kategorii!');
+
+    public function action_showCategory() {
+       $categoryName = ParamUtils::getFromCleanURL(1);
        
        $categoryId = App::getDB()->get("category", "id", [
            "name" => $categoryName
        ]);
        
        if(!$categoryId) {
+           Utils::addErrorMessage('Wystąpił błąd w wyborze kategorii.');
+           SessionUtils::storeMessages();
            App::getRouter()->redirectTo('mainShow');
            return;
        }
@@ -28,14 +31,16 @@ class ProductCtrl {
    }
    
    public function action_showProduct() {
-       $productId = ParamUtils::getFromCleanURL(1, true, 'Brak ID produktu!');
+       $productId = ParamUtils::getFromCleanURL(1);
        
        $product = App::getDB()->get("product", "*", [
           "id" => $productId 
        ]);
        
        if (!$product) {
-           App::getRouter()->redirectTo('showCategory');
+           Utils::addErrorMessage('Wystąpił błąd w wyborze produktu.');
+           SessionUtils::storeMessages();
+           App::getRouter()->redirectTo('mainShow');
            return;
        }
        

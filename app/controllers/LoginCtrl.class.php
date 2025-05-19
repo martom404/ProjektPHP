@@ -4,10 +4,10 @@ namespace app\controllers;
 
 use core\App;
 use core\Validator;
+use core\Utils;
 use core\RoleUtils;
 use core\SessionUtils;
 use core\ParamUtils;
-use core\Utils;
 use app\forms\LoginForm;
 
 class LoginCtrl {
@@ -19,14 +19,14 @@ class LoginCtrl {
     }
 
     public function getParams() {
-        $this->form->login = ParamUtils::getFromRequest('email');
+        $this->form->email = ParamUtils::getFromRequest('email');
         $this->form->password = ParamUtils::getFromRequest('password');
     }
     
     public function validate() {
         $v = new Validator();
 
-        $this->form->login = $v->validateFromRequest('email', [
+        $this->form->email = $v->validateFromRequest('email', [
             'trim' => true,
             'required' => true,
             'required_message' => 'Email jest wymagany',
@@ -34,8 +34,12 @@ class LoginCtrl {
             'max_length' => 254,
             'validator_message' => 'Email powinien mieć od 5 do 254 znaków'
         ]);
+        
+        if(!$v->isLastOK()){
+            return false;
+        }
 
-        $this->form->pass = $v->validateFromRequest('password', [
+        $this->form->password = $v->validateFromRequest('password', [
             'trim' => true,
             'required' => true,
             'required_message' => 'Hasło jest wymagane',
@@ -58,10 +62,15 @@ class LoginCtrl {
     
     public function action_login() {
         $this->getParams();
-
+        
+        if (!$this->validate()) {
+            $this->generateView();
+            return;
+        }
+        
         try {
             $user = App::getDB()->get("user", ['id', 'email', 'password', 'role_id'], [
-                "email" => $this->form->login
+                "email" => $this->form->email
             ]);
 
             if(!$user) {
@@ -82,21 +91,29 @@ class LoginCtrl {
 
             RoleUtils::addRole($role);
             SessionUtils::store('user_email', $user['email']);
-            $is_logged = true;
-            App::getRouter()->redirectTo('mainShow');
+            SessionUtils::store('user_id', $user['id']);
+            
+            if(RoleUtils::inRole('user')){
+             App::getRouter()->redirectTo('showAccount');   
+            } else if (RoleUtils::inRole('admin')){
+             App::getRouter()->redirectTo('adminPanel');
+            }
 
-        } catch (Exception $ex) {
+        } catch (\PDOException $e) {
             Utils::addErrorMessage('Błąd logowania.');
-            if (App::getConf()->debug) Utils::addErrorMessage($ex->getMessage());
+            if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
             $this->generateView();
         }
     }
 
     public function action_logout() {
-        session_destroy();
-        RoleUtils::removeRole($role);
-        $is_logged = false;
+        RoleUtils::removeRole("user");
+        RoleUtils::removeRole("admin");
+        SessionUtils::remove("user_email");
+        SessionUtils::remove("user_id");
+        
         Utils::addInfoMessage('Pomyślnie wylogowano.');
+        SessionUtils::storeMessages();
         App::getRouter()->redirectTo('loginView');
     }
 

@@ -28,5 +28,5 @@ function rel_url($params, $smarty)
 \core\App::getSmarty()->registerPlugin("function","rel_url", "rel_url");
 
 #assign variables
-\core\App::getSmarty()->assign('is_logged', \core\SessionUtils::load("user_email", true) !== null);
+
 
