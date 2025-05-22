@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-05-19 16:04:52
+/* Smarty version 5.4.5, created on 2025-05-22 17:37:59
   from 'file:accountView.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_682b3a8426add0_86250801',
+  'unifunc' => 'content_682f44d75342b5_40703556',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5a164b4468f3204a9d0da4ec092c01bc14c6738a' => 
     array (
       0 => 'accountView.tpl',
-      1 => 1747663316,
+      1 => 1747928134,
       2 => 'file',
     ),
   ),
@@ -21,20 +21,19 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:messages.tpl' => 1,
   ),
 ))) {
-function content_682b3a8426add0_86250801 (\Smarty\Template $_smarty_tpl) {
+function content_682f44d75342b5_40703556 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
-
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_569672318682b3a84192545_93250709', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1725510952682f44d74fe715_62027941', 'content');
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "main.tpl", $_smarty_current_dir);
 }
 /* {block 'content'} */
-class Block_569672318682b3a84192545_93250709 extends \Smarty\Runtime\Block
+class Block_1725510952682f44d74fe715_62027941 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views';
@@ -42,12 +41,17 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views';
 
 <div id="main" class="wrapper style1">
     <div class="container">
+        
         <header class="major">
             <h2>Twoje konto</h2>
         </header>
 
         <section id="app_content">
             <div class="row gtr-uniform gtr-50">
+                <div class="col-12">
+                    <?php $_smarty_tpl->renderSubTemplate("file:messages.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+?>
+                </div>
                 <div class="col-3">
                     <h3>Dane konta</h3>
                     <p><strong>Email:</strong> <?php echo $_smarty_tpl->getValue('user')['email'];?>
@@ -56,6 +60,18 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views';
 </p>
                     <p><strong>Twoje unikalne ID: </strong><?php echo $_smarty_tpl->getValue('user')['id'];?>
 </p>
+                    <p><strong>Miasto: </strong><?php echo $_smarty_tpl->getValue('address')['city'];?>
+</p>
+                    <p><strong>Ulica: </strong><?php echo $_smarty_tpl->getValue('address')['street'];?>
+</p>
+                    <p><strong>Numer: </strong><?php echo $_smarty_tpl->getValue('address')['house_number'];?>
+</p>
+                    <p><strong>Kod pocztowy: </strong><?php echo $_smarty_tpl->getValue('address')['zip_code'];?>
+</p>
+                    <p><strong>Kraj: </strong><?php echo $_smarty_tpl->getValue('address')['country'];?>
+</p>
+                    <a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'changeAddress'), $_smarty_tpl);?>
+" class="button">Edytuj dane do wysyłki</a>
                 </div>
 
                 <div class="col-9">
@@ -73,9 +89,7 @@ $foreach0DoElse = false;
  z dnia <?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('order')['order_date'],"%d.%m.%Y %H:%M");?>
 ,
                                 kwota: <strong><?php echo $_smarty_tpl->getValue('order')['full_price'];?>
- zł</strong>,
-                                status: <?php echo $_smarty_tpl->getValue('order')['status'];?>
-
+ zł</strong>
                                 <a href='<?php echo $_smarty_tpl->getValue('conf')->action_url;?>
 showOrder/<?php echo $_smarty_tpl->getValue('order')['id'];?>
 ' class='button order'>Szczegóły</a>
@@ -112,12 +126,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </div>
                     </form>
                 </div>
-
-                <div class="col-12">
-                    <?php $_smarty_tpl->renderSubTemplate("file:messages.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
-?>
-                </div>
-
                 <div class="col-12">
                     <h3>Usuń konto</h3>
                     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('orders')) > 0) {?>

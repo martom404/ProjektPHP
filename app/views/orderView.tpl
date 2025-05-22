@@ -5,11 +5,21 @@
         <header class="major">
             <h2>Szczegóły zamówienia nr. #{$order.id}</h2>
         </header>
-
-        <p><strong>Data zamówienia:</strong> {$order.order_date|date_format:"%d.%m.%Y %H:%M"}</p>
-        <p><strong>Status:</strong> {$order.status}</p>
-        <p><strong>Łączna kwota:</strong> {$order.full_price} zł</p>
-
+        <div class="row gtr-uniform gtr-50">
+            <div class="col-6">
+            <p><strong>Data zamówienia:</strong> {$order.order_date|date_format:"%d.%m.%Y %H:%M"}</p>
+            <p><strong>Status:</strong> {$order.status}</p>
+            <p><strong>Łączna kwota:</strong> {$order.full_price} zł</p>
+            </div>
+            <div class="col-6">
+            <p><strong>Adres zamówienia:</strong></p>
+            <p>Ulica: {$address.street}</p>
+            <p>Numer domu/mieszkania: {$address.house_number}</p>
+            <p>Miasto: {$address.city}</p>
+            <p>Kod pocztowy: {$address.zip_code}</p>
+            <p>Kraj: {$address.country}</p>
+            </div>
+        </div>
         <h3>Produkty:</h3>
         <table>
             <thead>

@@ -39,11 +39,45 @@
             </table>
 
             <p><strong>Łączna cena:</strong> {$total_price} zł</p>
+        {/if}
+        {if $items|@count == 0}
+         
+        {else if $items|count > 0}
+        <form method="post" action="{url action='placeOrder'}">
+            <fieldset>
+                <legend>Adres dostawy</legend>
+                {if !$default_address}
+                    <input type="radio" id="radio2" name="address_choice" value="new">
+                    <label for="radio2">Podaj adres:</label>
+                {else}
+                    <input type="radio" id="radio1" name="address_choice" value="default" checked>
+                    <label for="radio1">Użyj domyślnego adresu: {$default_address.street}, {$default_address.city}, {$default_address.zip_code}, {$default_address.country}</label>
 
-            <form method="post" action="{url action='placeOrder'}">
-                <input type="submit" value="Złóż zamówienie" class="primary" />
-            </form>
+                    <input type="radio" id="radio2" name="address_choice" value="new">
+                    <label for="radio2">Podaj nowy adres:</label>
+                {/if}
+                <div id="new_address_fields">
+                    <label>Ulica: <input type="text" name="street" /></label><br>
+                    <label>Numer domu/mieszkania: <input type="text" name="house_number" /></label><br>
+                    <label>Miasto: <input type="text" name="city" /></label><br>
+                    <label>Kod pocztowy: <input type="text" name="zip_code" /></label><br>
+                    <label>Kraj: <input type="text" name="country" /></label>
+                </div>
+            </fieldset>
+            <input type="submit" value="Złóż zamówienie" class="primary" />
+        </form>
         {/if}
     </div>
 </div>
+<script>
+    const radios = document.querySelectorAll('input[name="address_choice"]');
+    const newFields = document.getElementById('new_address_fields');
+
+    function toggleAddressFields() {
+        newFields.style.display = document.querySelector('input[name="address_choice"]:checked').value === 'new' ? 'block' : 'none';
+    }
+
+    radios.forEach(r => r.addEventListener('change', toggleAddressFields));
+    toggleAddressFields(); 
+</script>
 {/block}

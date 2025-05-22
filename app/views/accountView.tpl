@@ -1,19 +1,28 @@
 {extends file="main.tpl"}
-
 {block name=content}
 <div id="main" class="wrapper style1">
     <div class="container">
+        
         <header class="major">
             <h2>Twoje konto</h2>
         </header>
 
         <section id="app_content">
             <div class="row gtr-uniform gtr-50">
+                <div class="col-12">
+                    {include file="messages.tpl"}
+                </div>
                 <div class="col-3">
                     <h3>Dane konta</h3>
                     <p><strong>Email:</strong> {$user.email}</p>
                     <p><strong>Data rejestracji:</strong> {$user.created_date|date_format:"%d.%m.%Y %H:%M"}</p>
                     <p><strong>Twoje unikalne ID: </strong>{$user.id}</p>
+                    <p><strong>Miasto: </strong>{$address.city}</p>
+                    <p><strong>Ulica: </strong>{$address.street}</p>
+                    <p><strong>Numer: </strong>{$address.house_number}</p>
+                    <p><strong>Kod pocztowy: </strong>{$address.zip_code}</p>
+                    <p><strong>Kraj: </strong>{$address.country}</p>
+                    <a href="{url action='changeAddress'}" class="button">Edytuj dane do wysyłki</a>
                 </div>
 
                 <div class="col-9">
@@ -23,8 +32,7 @@
                         {foreach $orders as $order}
                             <li>
                                 Zamówienie o numerze #{$order.id} z dnia {$order.order_date|date_format:"%d.%m.%Y %H:%M"},
-                                kwota: <strong>{$order.full_price} zł</strong>,
-                                status: {$order.status}
+                                kwota: <strong>{$order.full_price} zł</strong>
                                 <a href='{$conf->action_url}showOrder/{$order.id}' class='button order'>Szczegóły</a>
                             </li>
                         {/foreach}
@@ -56,11 +64,6 @@
                         </div>
                     </form>
                 </div>
-
-                <div class="col-12">
-                    {include file="messages.tpl"}
-                </div>
-
                 <div class="col-12">
                     <h3>Usuń konto</h3>
                     {if $orders|count > 0}

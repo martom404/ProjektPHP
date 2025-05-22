@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-05-19 13:49:51
+/* Smarty version 5.4.5, created on 2025-05-22 12:52:17
   from 'file:main.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_682b1adf3f47c6_02963237',
+  'unifunc' => 'content_682f01e127f839_73455614',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8dd73f8f8861e4edb021cf6af4f50827e62672fa' => 
     array (
       0 => 'main.tpl',
-      1 => 1747655356,
+      1 => 1747911133,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_682b1adf3f47c6_02963237 (\Smarty\Template $_smarty_tpl) {
+function content_682f01e127f839_73455614 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -89,9 +89,9 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ">Gry</a></li>
                                 </ul>
                         </li>
+                        <?php if (\core\RoleUtils::inRole("user")) {?>
                         <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showCart'), $_smarty_tpl);?>
 ">Koszyk</a></li>
-                        <?php if (\core\RoleUtils::inRole("user")) {?>
                         <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'showAccount'), $_smarty_tpl);?>
 ">Moje konto</a></li>
                         <li><a href="<?php echo $_smarty_tpl->getSmarty()->getFunctionHandler('url')->handle(array('action'=>'logout'), $_smarty_tpl);?>
@@ -112,7 +112,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 </header>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_620178887682b1adf3c43d5_56350186', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_896049422682f01e1242922_37890626', 'content');
 ?>
 
 
@@ -190,7 +190,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_620178887682b
 </body>
 </html><?php }
 /* {block 'content'} */
-class Block_620178887682b1adf3c43d5_56350186 extends \Smarty\Runtime\Block
+class Block_896049422682f01e1242922_37890626 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views\\templates';

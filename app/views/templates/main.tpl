@@ -48,8 +48,8 @@
                                         <li><a href="{url action='showCategory/PcGry'}">Gry</a></li>
                                 </ul>
                         </li>
-                        <li><a href="{url action='showCart'}">Koszyk</a></li>
                         {if \core\RoleUtils::inRole("user")}
+                        <li><a href="{url action='showCart'}">Koszyk</a></li>
                         <li><a href="{url action='showAccount'}">Moje konto</a></li>
                         <li><a href="{url action='logout'}" class="button primary">Wyloguj</a></li>
                         {else if \core\RoleUtils::inRole("admin")}

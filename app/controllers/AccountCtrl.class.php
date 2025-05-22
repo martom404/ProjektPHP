@@ -5,7 +5,6 @@ namespace app\controllers;
 use core\App;
 use core\SessionUtils;
 use core\Utils;
-use core\RoleUtils;
 use core\ParamUtils;
 
 class AccountCtrl {
@@ -18,20 +17,36 @@ class AccountCtrl {
                 "email"=>$user_email
             ]);
             
+            $address = App::getDB()->get('address', '*', [
+                'user_id' => $user['id'],
+                'is_default' => true
+            ]);
+            
+            if(!$address) {
+                $address = [
+                    'street' => 'brak',
+                    'city' => 'brak',
+                    'zip_code' => 'brak',
+                    'country' => 'brak',
+                    'is_default' => false
+                ];
+            }
+            
             $orders = App::getDB()->select("order", [
                 "id",
                 "order_date",
                 "full_price",
-                "status"
             ], [
                 "user_id" => $user["id"],
                 "status[!]" => "nowe" 
             ]);
             
-            $this->generateView($user, $orders);
+            $this->generateView($user, $orders, $address);
         }  catch (\PDOException $e) {
             Utils::addErrorMessage("Błąd pobierania danych użytkownika.");
             if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+            SessionUtils::storeMessages();
+            App::getRouter()->redirectTo('showAccount');
         }
     }
     
@@ -60,6 +75,7 @@ class AccountCtrl {
                 App::getRouter()->redirectTo('showAccount');
                 return;
             }
+            
             $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
             App::getDB()->update("user", ["password" => $newPasswordHash], ["id" =>$user['id']]);
             Utils::addInfoMessage('Hasło zostało zmienione.');
@@ -67,8 +83,10 @@ class AccountCtrl {
             App::getRouter()->redirectTo('showAccount');
            
         } catch (\PDOException $e) {
-        Utils::addErrorMessage("Błąd aktualizacji hasła.");
-        if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+            Utils::addErrorMessage("Błąd aktualizacji hasła.");
+            if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+            SessionUtils::storeMessages();
+            App::getRouter()->redirectTo('showAccount');
         }
  
     }
@@ -85,6 +103,7 @@ class AccountCtrl {
         } catch (\PDOException $e) {
             Utils::addErrorMessage("Błąd usuwania konta użytkownika.");
             if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+            SessionUtils::storeMessages();
             App::getRouter()->redirectTo('mainShow');
         }
     }
@@ -92,14 +111,14 @@ class AccountCtrl {
     public function action_showOrder() {
         $orderId = ParamUtils::getFromCleanURL(1);
         $user_email = SessionUtils::load('user_email', true);
-
-
+        
         try {
             $userId = SessionUtils::load('user_id', true);
-
+ 
             $order = App::getDB()->get("order", "*", [
                 "id" => $orderId,
-                "user_id" => $userId
+                "user_id" => $userId,
+                "status[!]" => "nowe"
             ]);
 
             if (!$order) {
@@ -108,7 +127,19 @@ class AccountCtrl {
                 App::getRouter()->redirectTo('showAccount');
                 return;
             }
-
+            
+            $address = App::getDB()->get("order", [
+                "[>]address" => ["address_id" => "id"]
+            ], [
+                "address.street",
+                "address.house_number",
+                "address.city",
+                "address.zip_code",
+                "address.country"
+            ], [
+                "order.id" => $orderId
+            ]);
+            
             $products = App::getDB()->select("ordered_items", [
                 "[>]product" => ["product_id" => "id"]
             ], [
@@ -121,6 +152,7 @@ class AccountCtrl {
 
             App::getSmarty()->assign('order', $order);
             App::getSmarty()->assign('products', $products);
+            App::getSmarty()->assign('address', $address);
             App::getSmarty()->assign('page_title', "Szczegóły zamówienia");
             App::getSmarty()->display('orderView.tpl');
 
@@ -131,10 +163,88 @@ class AccountCtrl {
         }
     }
     
-    public function generateView($user, $orders=[]) {
-        App::getSmarty()->assign('page_title', 'Twoje konto');
-        App::getSmarty()->assign('user', $user);
-        App::getSmarty()->assign('orders', $orders);
-        App::getSmarty()->display('accountView.tpl');
+    public function action_changeAddress() {
+        $userId = SessionUtils::load('user_id', true);
+        
+        try {
+            $address = App::getDB()->get('address', '*', [
+               'user_id' => $userId,
+               'is_default' => true
+            ]);
+            
+            if (!$address) {
+            $address = [
+                'street' => '',
+                "house_number" => '',
+                'city' => '',
+                'zip_code' => '',
+                'country' => '',
+                'is_default' => false
+            ];
+        }          
+            App::getSmarty()->assign("address", $address);
+            App::getSmarty()->assign("page_title", "Zmień adres");
+            App::getSmarty()->display("addressView.tpl");
+        } catch (\PDOException $e) {
+            Utils::addErrorMessage("Błąd ładowania danych adresu.");
+            if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+            App::getRouter()->redirectTo("showAccount");
+        }
+    }
+    
+    public function action_saveAddress() {
+        $userId = SessionUtils::load('user_id', true);
+
+        $street = ParamUtils::getFromRequest('street');
+        $hnumber = ParamUtils::getFromRequest('hnumber');
+        $city = ParamUtils::getFromRequest('city');
+        $zip_code = ParamUtils::getFromRequest('zip_code');
+        $country = ParamUtils::getFromRequest('country');
+
+        try {
+            $existingId = App::getDB()->get('address', 'id', [
+                "user_id" => $userId
+            ]);
+
+            if ($existingId) {
+                App::getDB()->update("address", [
+                    "street" => $street,
+                    "house_number" => $hnumber,
+                    "city" => $city,
+                    "zip_code" => $zip_code,
+                    "country" => $country,
+                    "is_default" => true
+                ], [
+                    "id" => $existingId
+                ]);
+            } else {
+                App::getDB()->insert("address", [
+                    "user_id" => $userId,
+                    "street" => $street,
+                    "house_number" => $hnumber,
+                    "city" => $city,
+                    "zip_code" => $zip_code,
+                    "country" => $country,
+                    "is_default" => true
+                ]);
+            }
+
+            Utils::addInfoMessage("Adres został zapisany.");
+            SessionUtils::storeMessages();
+            
+        } catch (\PDOException $e) {
+            Utils::addErrorMessage("Błąd zapisu adresu.");
+            if (App::getConf()->debug) Utils::addErrorMessage($e->getMessage());
+        }
+        App::getRouter()->redirectTo("changeAddress");
+    }
+
+
+    public function generateView($user, $orders = [], $address = []) {
+    App::getSmarty()->assign('page_title', 'Twoje konto');
+    App::getSmarty()->assign('user', $user);
+    App::getSmarty()->assign('orders', $orders);
+    App::getSmarty()->assign('address', $address);
+    App::getSmarty()->display('accountView.tpl');
     }
 }

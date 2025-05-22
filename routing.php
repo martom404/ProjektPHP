@@ -22,10 +22,12 @@ Utils::addRoute('placeOrder', 'CartCtrl', ['user']);
 
 //Konto
 Utils::addRoute('showAccount', 'AccountCtrl', ['user']);
+Utils::addRoute('changeAddress', 'AccountCtrl', ['user']);
+Utils::addRoute('saveAddress', 'AccountCtrl', ['user']);
 Utils::addRoute('showOrder', 'AccountCtrl', ['user']);
 Utils::addRoute('deleteAccount', 'AccountCtrl', ['user']);
 Utils::addRoute('changePassword', 'AccountCtrl', ['user']);
-Utils::addRoute('adminPanel', 'AccountCtrl', ['admin']);
+//Utils::addRoute('adminPanel', 'AccountCtrl', ['admin']);
 
 //Logowanie, rejestracja
 Utils::addRoute('loginView', 'LoginCtrl');
