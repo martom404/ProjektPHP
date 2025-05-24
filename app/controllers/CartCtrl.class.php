@@ -143,7 +143,19 @@ class CartCtrl {
                         "id" => $itemId
                     ]);
                 }
-                Utils::addInfoMessage("Usunięto produkt z koszyka.");
+
+                $remainingItems = App::getDB()->count("ordered_items", [
+                    "order_id" => $orderId
+                ]);
+
+                if ($remainingItems === 0) {
+                    App::getDB()->delete("order", [
+                        "id" => $orderId
+                    ]);
+                    Utils::addInfoMessage("Koszyk został całkowicie opróżniony.");
+                } else {
+                    Utils::addInfoMessage("Usunięto produkt z koszyka.");
+                }
             } else {
                 Utils::addErrorMessage('Nie możesz usunąć produktu, którego nie ma w Twoim koszyku.');
             }
@@ -156,6 +168,7 @@ class CartCtrl {
         SessionUtils::storeMessages();
         App::getRouter()->redirectTo("showCart");
     }
+
 
     
     public function action_updateProductQuantity() {

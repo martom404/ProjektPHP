@@ -12,7 +12,7 @@ Utils::addRoute('sendMessage', 'MainCtrl');
 // Produkty
 Utils::addRoute('showCategory', 'ProductCtrl'); 
 Utils::addRoute('showProduct', 'ProductCtrl');  
-
+Utils::addRoute('showAll', 'ProductCtrl');
 //Koszyk
 Utils::addRoute('addToCart', 'CartCtrl', ['user']);
 Utils::addRoute('showCart', 'CartCtrl', ['user']);
@@ -27,7 +27,14 @@ Utils::addRoute('saveAddress', 'AccountCtrl', ['user']);
 Utils::addRoute('showOrder', 'AccountCtrl', ['user']);
 Utils::addRoute('deleteAccount', 'AccountCtrl', ['user']);
 Utils::addRoute('changePassword', 'AccountCtrl', ['user']);
-//Utils::addRoute('adminPanel', 'AccountCtrl', ['admin']);
+
+//Admin
+Utils::addRoute('adminPanel', 'AdminCtrl', ['admin']);
+Utils::addRoute('updateOrderStatus', 'AdminCtrl', ['admin']);
+Utils::addRoute('deleteOrder', 'AdminCtrl', ['admin']);
+//Utils::addRoute('addProduct', 'AdminCtrl', ['admin']);
+//Utils::addRoute('editProduct', 'AdminCtrl', ['admin']);
+//Utils::addRoute('deleteProduct', 'AdminCtrl', ['admin']);
 
 //Logowanie, rejestracja
 Utils::addRoute('loginView', 'LoginCtrl');

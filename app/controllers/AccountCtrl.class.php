@@ -25,6 +25,7 @@ class AccountCtrl {
             if(!$address) {
                 $address = [
                     'street' => 'brak',
+                    'house_number' => 'brak',
                     'city' => 'brak',
                     'zip_code' => 'brak',
                     'country' => 'brak',

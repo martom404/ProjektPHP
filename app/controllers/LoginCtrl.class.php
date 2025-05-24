@@ -56,10 +56,6 @@ class LoginCtrl {
 
     }
   
-    public function action_loginView(){
-        $this->generateView();
-    }
-    
     public function action_login() {
         $this->getParams();
         
@@ -116,7 +112,11 @@ class LoginCtrl {
         SessionUtils::storeMessages();
         App::getRouter()->redirectTo('loginView');
     }
-
+    
+    public function action_loginView(){
+        $this->generateView();
+    }
+    
     public function generateView() {
         App::getSmarty()->assign('page_header', 'Strona logowania');
         App::getSmarty()->assign('page_title', 'Heaven4Gamers');

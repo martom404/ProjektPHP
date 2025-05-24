@@ -17,9 +17,9 @@
         <h1 id="logo">Heaven4Gamers</h1>
         <nav id="nav">
                 <ul>
-                        <li><a href="{url action='mainShow'}">Strona główna</a></li>
+                        <li><a href="{url action='mainShow'}">Strona główna</a></li>                    
                         <li>
-                                <a href="#">Playstation</a>
+                                <a href="{$conf->action_url}showAll/Playstation">Playstation</a>
                                 <ul>
                                         <li><a href="{url action='showCategory/PlaystationKonsole'}">Konsole</a</li>
                                         <li><a href="{url action='showCategory/PlaystationGry'}">Gry</a></li>
@@ -27,7 +27,7 @@
                                 </ul>
                         </li>
                         <li>
-                                <a href="#">Xbox</a>
+                                <a href="{$conf->action_url}showAll/Xbox">Xbox</a>
                                 <ul>
                                         <li><a href="{url action='showCategory/XboxKonsole'}">Konsole</a</li>
                                         <li><a href="{url action='showCategory/XboxGry'}">Gry</a></li>
@@ -35,7 +35,7 @@
                                 </ul>
                         </li>
                         <li>
-                                <a href="#">Nintendo Switch</a>
+                                <a href="{$conf->action_url}showAll/Switch">Nintendo Switch</a>
                                 <ul>
                                         <li><a href="{url action='showCategory/NintendoKonsole'}">Konsole</a</li>
                                         <li><a href="{url action='showCategory/NintendoGry'}">Gry</a></li>
@@ -43,7 +43,7 @@
                                 </ul>
                         </li>
                         <li>
-                                <a href="#">PC</a>
+                                <a href="{$conf->action_url}showAll/PC">PC</a>
                                 <ul>
                                         <li><a href="{url action='showCategory/PcGry'}">Gry</a></li>
                                 </ul>

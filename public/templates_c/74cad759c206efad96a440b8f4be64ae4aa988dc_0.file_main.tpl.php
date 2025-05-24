@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 5.4.5, created on 2025-05-22 18:52:51
-  from 'file:main.tpl' */
+/* Smarty version 5.4.5, created on 2025-05-24 17:45:16
+  from 'file:templates/main.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.5',
-  'unifunc' => 'content_682f56638e7ee7_06016988',
+  'unifunc' => 'content_6831e98cc50b76_48419499',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '8dd73f8f8861e4edb021cf6af4f50827e62672fa' => 
+    '74cad759c206efad96a440b8f4be64ae4aa988dc' => 
     array (
-      0 => 'main.tpl',
+      0 => 'templates/main.tpl',
       1 => 1747932765,
       2 => 'file',
     ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_682f56638e7ee7_06016988 (\Smarty\Template $_smarty_tpl) {
+function content_6831e98cc50b76_48419499 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -116,7 +116,7 @@ showAll/PC">PC</a>
 </header>
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1519711459682f56638bf927_74057395', 'content');
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_16530201996831e98cc238d6_05968492', 'content');
 ?>
 
 
@@ -194,7 +194,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1519711459682
 </body>
 </html><?php }
 /* {block 'content'} */
-class Block_1519711459682f56638bf927_74057395 extends \Smarty\Runtime\Block
+class Block_16530201996831e98cc238d6_05968492 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\sklep\\app\\views\\templates';
